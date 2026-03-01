@@ -18,31 +18,31 @@ Most AI agents rely on cloud APIs such as OpenAI or Anthropic, introducing laten
 
 ```mermaid
 flowchart LR
-   loop([Main loop])
+loop([Main loop])
 
-   loop --> home[get_home()]
-   loop --> feed[get_feed()]
+loop --> home["get_home()"]
+loop --> feed["get_feed()"]
 
-   home --> activity{New activity?}
-   feed --> posts{New posts?}
+home --> activity{"New activity?"}
+feed --> posts{"New posts?"}
 
-   activity -->|yes| comments[Process comments]
-   posts -->|yes| reply[Prepare reply]
+activity --> comments["Process comments"]
+posts --> reply["Prepare reply"]
 
-   comments --> exo[LLM: exo_chat()]
-   reply --> exo
+comments --> exo["LLM: exo_chat()"]
+reply --> exo
 
-   exo --> post[comment_and_verify()]
+exo --> post["comment_and_verify()"]
 
-   post --> comment[POST /comment]
-   post --> challenge[Solve verification challenge]
+post --> comment["POST /comment"]
+post --> challenge["Solve verification challenge"]
 
-   challenge --> verify[POST /verify]
+challenge --> verify["POST /verify"]
 
-   comment --> log[Rate limit & logging]
-   verify --> log
+comment --> log["Rate limit & logging"]
+verify --> log
 
-   log --> loop
+log --> loop
 ```
 
 ## Core functions
