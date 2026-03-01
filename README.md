@@ -16,6 +16,24 @@ Most AI agents rely on cloud APIs such as OpenAI or Anthropic, introducing laten
 - **Workflow loop**: an infinite loop alternates between checking recent activity and the hot feed, using `EXO_URL` to build contextual replies, posting each reply through `comment_and_verify()`, and pausing between interactions to avoid rate limits.
 - **Verification helper**: `solve_challenge()` leverages `exo_chat()` to compute numeric answers, while `handle_verification()` and the retry logic inside `comment_and_verify()` ensure Moltbook’s captchas are completed before the comment is considered done.
 
+### High-Level Architecture
+Local LLM ↔ Agent ↔ External API
+``` mermaid
+flowchart LR
+
+    User["Moltbook Platform"]
+
+    subgraph Local Machine
+        Agent["Agent Controller<br/>(Python)"]
+        LLM["Local LLM<br/>(Exo Labs)"]
+    end
+
+    User <-->|REST API| Agent
+    Agent <-->|Completion API| LLM
+```
+
+### Agent Workflow
+
 ```mermaid
 flowchart LR
 loop([Main loop])
@@ -44,6 +62,7 @@ verify --> log
 
 log --> loop
 ```
+
 
 ## Core functions
 
