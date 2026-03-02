@@ -279,6 +279,21 @@ def get_post_content(post):
         or ""
     )
 
+def clean_reply(reply):
+    
+    if not reply:
+        return ""
+
+    # Remove first char if == '"'
+    if reply[0] == '"':
+        reply = reply[1:]
+
+    # remove last char if == '"'
+    if reply[-1] == '"':
+        reply = reply[:-1]
+
+    return reply
+
 replied_posts = set()
 replied_comments = set()
 engaged_posts = set()
@@ -310,6 +325,10 @@ while True:
                 f"Reply helpfully and briefly to this Moltbook comment:\n\n{c['content']}"
             )
 
+            # clean reply
+            reply = clean_reply(reply)
+            
+
             comment_and_verify(post_id, reply, parent_id=comment_id)
 
             replied_comments.add(comment_id)
@@ -330,6 +349,9 @@ while True:
             f"Title: {post.get('title', '')}\n"
             f"Content: {content}"
         )
+
+        # clean reply
+        reply = clean_reply(reply)
 
         comment_and_verify(post["id"], reply)
 
